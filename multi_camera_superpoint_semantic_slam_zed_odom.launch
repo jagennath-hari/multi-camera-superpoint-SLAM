@@ -1,5 +1,4 @@
 <launch>
-<?ignore
 	<!-- ZED wrappers for 2 cameras -->
 	<include file="$(find zed_multicamera_example)/launch/zed_multi_cam.launch">
 		<arg name="camera_model_1"       default="zed2" />
@@ -17,13 +16,12 @@
 	<!-- TF set for 2 cameras -->
   	<node pkg="tf" type="static_transform_publisher" name="base_to_camera1_tf" args="0.0 0.0 0.0 0.0 0.0 0.0 /base_link /camera1_link 100" />
   	<node pkg="tf" type="static_transform_publisher" name="base_to_camera2_tf" args="-0.602 0.0 0.0 0.0 3.142 3.142 /base_link /camera2_link 100" />
-	?>
 	<!--
 	<node pkg="sem_cloud" type="semantic_Cloud" name="cloud" clear_params="true" args=""/>
 	<node pkg="sem_cloud" type="sync_i" name="sync" clear_params="true" args=""/>
 	-->
 
-	<node pkg="sfm" type="merge_scans" name="merge_scans" />
+	<!--node pkg="sfm" type="merge_scans" name="merge_scans" /-->
 
 	<!-- rgbd sync nodelet for 2 cameras -->
 	 <group ns="camera1">
