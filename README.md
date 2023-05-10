@@ -8,6 +8,7 @@ Graph based SLAM for multiple cameras using SuperPoint feature detector. Uses (z
 
 ## Dependencies
 1) ROS
-2) LibTorch ([Offical Installation Guide](https://github.com/pytorch/pytorch/blob/main/docs/libtorch.rst))
-3) rtabmap + rtabmap_ros ([Offical Installation Guide](https://github.com/introlab/rtabmap_ros#rtabmap_ros))
-4) Download SuperPoint Weights .pt file ([Offical Reposoitory](https://github.com/KinglittleQ/SuperPoint_SLAM))
+2) zed_wrapper ([Offical Guide](https://github.com/stereolabs/zed-ros-wrapper))
+3) LibTorch ([Offical Installation Guide](https://github.com/pytorch/pytorch/blob/main/docs/libtorch.rst))
+4) rtabmap + rtabmap_ros ([Offical Installation Guide](https://github.com/introlab/rtabmap_ros#rtabmap_ros))
+5) Download SuperPoint Weights .pt file ([Offical Reposoitory](https://github.com/KinglittleQ/SuperPoint_SLAM))
