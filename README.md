@@ -20,3 +20,6 @@ Graph based SLAM for multiple cameras using SuperPoint feature detector. Uses (z
 ```shell
 roslaunch multi_camera_superpoint_semantic_slam_zed_odom.launch
 ```
+
+## Pose Graph Optimization
+View all topics on RVIZ
