@@ -23,3 +23,6 @@ roslaunch multi_camera_superpoint_semantic_slam_zed_odom.launch
 
 ## Pose Graph Optimization
 View all topics on RVIZ
+<p float="center">
+  <img src="assests/loop closure.gif" width="800" height="400" />
+</p> 
