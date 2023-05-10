@@ -13,3 +13,7 @@ Graph based SLAM for multiple cameras using SuperPoint feature detector. Uses (z
 4) LibTorch ([Offical Installation Guide](https://github.com/pytorch/pytorch/blob/main/docs/libtorch.rst))
 5) rtabmap + rtabmap_ros ([Offical Installation Guide](https://github.com/introlab/rtabmap_ros#rtabmap_ros))
 6) Download SuperPoint Weights .pt file ([Offical Reposoitory](https://github.com/KinglittleQ/SuperPoint_SLAM))
+
+##To use
+1) modify launch file to configure camera frames and link for SLAM
+2) Change translation and orientation of cameras w.r.t base_link (Both tf packages and zed_multi_camera nodes)
