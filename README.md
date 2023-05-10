@@ -1,4 +1,4 @@
-# multi-camera-superpoint-SLAM
+# real-time multi-camera-superpoint-SLAM
 Graph based SLAM for multiple cameras using SuperPoint feature detector. Uses (zed_wrapper, rtabmap_ros, LibTorch and ROS noetic).
 
 <p float="center">
@@ -21,7 +21,7 @@ Graph based SLAM for multiple cameras using SuperPoint feature detector. Uses (z
 roslaunch multi_camera_superpoint_semantic_slam_zed_odom.launch
 ```
 
-## Pose Graph Optimization
+## Real-Time Pose Graph Optimization
 View all topics on RVIZ
 <p float="center">
   <img src="assests/loop closure.gif" width="800" height="400" />
