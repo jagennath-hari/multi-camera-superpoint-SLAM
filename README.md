@@ -3,5 +3,5 @@ Graph based SLAM for multiple cameras using SuperPoint feature detector. Uses (z
 
 ## Dependencies
 <p float="center">
-  <img src="assets/SLAM.gif" width="400" height="350" />
+  <img src="assets/SLAM.gif" width="800" height="700" />
 </p> 
