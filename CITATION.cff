@@ -3,7 +3,7 @@ message: "If you use this software, please cite it as below."
 authors:
 - family-names: "Hari"
   given-names: "Jagennath"
-title: "CREATING A RESILIENT SLAM SYSTEM FOR NEXT-GEN AUTONOMOUS ROBOTS"
+title: "Real-Time Multi-Camera SuperPoint SLAM"
 version: 2.0.4
 date-released: 2023-05-09
 url: "https://github.com/jagennath-hari/multi-camera-superpoint-SLAM"
