@@ -22,7 +22,9 @@ roslaunch multi_camera_superpoint_semantic_slam_zed_odom.launch
 ```
 
 ## Real-Time Pose Graph Optimization
-View all topics on RVIZ
+Point Cloud reconstuction and real-time pose graph optimization occurs at `1 Hz`.
 <p float="center">
   <img src="assests/loop closure.gif" width="800" height="400" />
 </p> 
+
+View all topics on RVIZ under `rtabmap` namespace.
