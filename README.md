@@ -17,3 +17,6 @@ Graph based SLAM for multiple cameras using SuperPoint feature detector. Uses (z
 ## To use
 1) modify launch file to configure camera frames and link for SLAM
 2) Change translation and orientation of cameras w.r.t base_link (Both tf packages and zed_multi_camera nodes)
+```shell
+roslaunch 
+```
