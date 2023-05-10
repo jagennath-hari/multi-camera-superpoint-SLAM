@@ -9,3 +9,4 @@ Graph based SLAM for multiple cameras using SuperPoint feature detector. Uses (z
 ## Dependencies
 1) ROS
 2) rtabmap + rtabmap_ros ([Offical Installation Guide](https://github.com/introlab/rtabmap_ros#rtabmap_ros))
+3) LibTorch ([Offical Installation Guide](https://github.com/pytorch/pytorch/blob/main/docs/libtorch.rst))
