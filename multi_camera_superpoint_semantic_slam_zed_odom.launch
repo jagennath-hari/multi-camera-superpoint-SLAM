@@ -1,0 +1,162 @@
+<launch>
+<?ignore
+	<!-- ZED wrappers for 2 cameras -->
+	<include file="$(find zed_multicamera_example)/launch/zed_multi_cam.launch">
+		<arg name="camera_model_1"       default="zed2" />
+		<arg name="camera_name_1"        default="zed2" />
+		<arg name="node_name_1"          default="zed2_node" />
+		<arg name="camera_model_2"       default="zedm" />
+		<arg name="camera_name_2"        default="zedm" />
+		<arg name="node_name_2"          default="zedm_node" />
+		<arg name="cam_pos_x_2"       default="-0.602" />
+		<arg name="cam_pos_y_2"       default="0" />
+		<arg name="cam_pos_z_2"       default="0" />
+		<arg name="cam_yaw_2"            default="3.142" />
+	</include> 
+	
+	<!-- TF set for 2 cameras -->
+  	<node pkg="tf" type="static_transform_publisher" name="base_to_camera1_tf" args="0.0 0.0 0.0 0.0 0.0 0.0 /base_link /camera1_link 100" />
+  	<node pkg="tf" type="static_transform_publisher" name="base_to_camera2_tf" args="-0.602 0.0 0.0 0.0 3.142 3.142 /base_link /camera2_link 100" />
+	?>
+	<!--
+	<node pkg="sem_cloud" type="semantic_Cloud" name="cloud" clear_params="true" args=""/>
+	<node pkg="sem_cloud" type="sync_i" name="sync" clear_params="true" args=""/>
+	-->
+
+	<node pkg="sfm" type="merge_scans" name="merge_scans" />
+
+	<!-- rgbd sync nodelet for 2 cameras -->
+	 <group ns="camera1">
+    		<node pkg="nodelet" type="nodelet" name="rgbd_sync1" args="standalone rtabmap_ros/rgbd_sync camera1_nodelet_manager1" clear_params="true" >
+      			<remap from="rgb/image"         to="/zed2/zed2_node/rgb/image_rect_color"/>
+      			<remap from="depth/image"       to="/zed2/zed2_node/depth/depth_registered"/>
+      			<remap from="rgb/camera_info"   to="/zed2/zed2_node/depth/camera_info"/>
+				<param name="approx_sync" type="bool" value="True" />
+                <param name="approx_sync_max_interval" type="double" value="0.0" />
+                <param name="decimation" type="double" value="1.0" />
+                <param name="depth_scale" type="double" value="1.0" />
+                <param name="queue_size" type="int" value="10" />
+    		</node>
+   	</group>
+   	<group ns="camera2">
+    		<node pkg="nodelet" type="nodelet" name="rgbd_sync2" args="standalone rtabmap_ros/rgbd_sync camera2_nodelet_manager2" clear_params="true" >
+      			<remap from="rgb/image"         to="/zedm/zedm_node/rgb/image_rect_color"/>
+      			<remap from="depth/image"       to="/zedm/zedm_node/depth/depth_registered"/>
+      			<remap from="rgb/camera_info"   to="/zedm/zedm_node/depth/camera_info"/>
+      			<param name="approx_sync" type="bool" value="True" />
+                <param name="approx_sync_max_interval" type="double" value="0.0" />
+                <param name="decimation" type="double" value="1.0" />
+                <param name="depth_scale" type="double" value="1.0" />
+                <param name="queue_size" type="int" value="10" />
+    		</node>
+   	</group>
+
+   	<!-- rtabmap odometry and vis -->
+   	
+	<group ns="rtabmap">
+    		<node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="--delete_db_on_start">
+			<!--parameters for rtabmap-->
+      		<param name="subscribe_depth"  type="bool"   value="false"/>
+			<param name="subscribe_rgb"   type="bool"   value="false"/>
+      		<param name="subscribe_rgbd"   type="bool"   value="true"/>
+			<param name="subscribe_scan" type="bool" value="false" />
+			<param name="subscribe_scan_cloud" type="bool" value="false" />
+      		<param name="rgbd_cameras"    type="int"    value="2"/>
+	  		<param name="frame_id"         type="string" value="base_link"/>
+			<param name="gen_depth" type="bool" value="false" />
+			<param name="gen_depth_decimation" type="int" value="1" />
+			<param name="gen_depth_fill_holes_error" type="double" value="0.1" />
+			<param name="gen_depth_fill_holes_size" type="int" value="0" />
+			<param name="gen_depth_fill_iterations" type="int" value="1" />
+			<param name="gen_scan" type="bool" value="false" />
+			<param name="approx_sync" type="bool" value="True" />
+			<param name="wait_for_transform" type="bool"   value="true"/>
+			<remap from="rgbd_image0"       to="/camera1/rgbd_image"/>
+			<remap from="rgbd_image1"       to="/camera2/rgbd_image"/>
+			<param name="Grid/FromSensor"     type="string" value="true"/>
+			<!--rtabmap args-->
+			<?ignore
+			<param name="SuperPoint/ModelPath" type="string" value="/home/crrl/superpoint_and_superglue_weights/superpoint.pt" />
+			<param name="SuperPoint/Threshold" type="string" value="0.20" />
+			<param name="Kp/DetectorStrategy" type="string" value="11" />
+            <param name="Vis/FeatureType" type="string" value="11" />
+			<param name="Vis/EstimationType" type="string" value="0" />
+			<param name="Optimizer/VarianceIgnored" type="string" value="true" />
+			<param name="Optimizer/Strategy" type="string" value="1" />
+			<param name="Optimizer/Robust" type="string" value="true" />
+			<param name="RGBD/OptimizeMaxError" type="string" value="0.00" />
+			<param name="Optimizer/GravitySigma" type="string" value="0.00" />
+			<param name="RGBD/OptimizeFromGraphEnd" type="string" value="true" />
+			<param name="RGBD/ProximityBySpace" type="string" value="false" />
+			<param name="g2o/Solver" type="string" value="3" />
+			<param name="g2o/Optimizer" type="string" value="1" />
+			<param name="Mem/UseOdomFeatures" type="string" value="false" />
+			?>
+			<param name="SuperPoint/ModelPath" type="string" value="/home/crrl/superpoint_and_superglue_weights/superpoint.pt" />
+			<param name="SuperPoint/Threshold" type="string" value="0.05" />
+			<param name="Kp/DetectorStrategy" type="string" value="11" />
+            <param name="Vis/FeatureType" type="string" value="11" />
+			<param name="Vis/EstimationType" type="string" value="0" />
+			<param name="Optimizer/VarianceIgnored" type="string" value="true" />
+			<param name="Optimizer/Strategy" type="string" value="1" />
+			<param name="Optimizer/Robust" type="string" value="true" />
+			<param name="RGBD/OptimizeMaxError" type="string" value="0.00" />
+			<param name="Optimizer/GravitySigma" type="string" value="0.00" />
+			<param name="RGBD/OptimizeFromGraphEnd" type="string" value="true" />
+			<param name="RGBD/ProximityBySpace" type="string" value="true" />
+			<param name="g2o/Solver" type="string" value="3" />
+			<param name="g2o/Optimizer" type="string" value="1" />
+			<param name="Mem/UseOdomFeatures" type="string" value="false" />
+			<param name="Kp/MaxFeatures" type="string" value="500" />
+            <param name="Vis/MaxFeatures" type="string" value="500" />
+            <param name="RGBD/LinearUpdate" type="string" value="0" />
+            <param name="Odom/Strategy" type="string" value="0" />
+            <param name="Mem/UseOdomGravity" type="string" value="false" />
+            <param name="Reg/Force3DoF" type="string" value="false" />
+
+			<!-- Proximity detection -->
+			<?ignore
+			<param name="RGBD/ProximityByTime" type="string" value="false" />
+			<param name="RGBD/ProximityBySpace" type="string" value="true" />
+			<param name="RGBD/ProximityMaxGraphDepth" type="string" value="0" />
+			<param name="RGBD/ProximityMaxPaths" type="string" value="0" />
+			<param name="RGBD/ProximityPathMaxNeighbors" type="string" value="10" />
+			<param name="RGBD/ProximityOdomGuess" type="string" value="false" />
+			<param name="RGBD/ProximityGlobalScanMap" type="string" value="false" />
+			<param name="Reg/Strategy" type="string" value="1" />
+			<param name="Icp/Strategy" type="string" value="1" />
+			<param name="Icp/MaxTranslation" type="string" value="1.00" />
+			<param name="Icp/MaxRotation" type="string" value="3.14" />
+			<param name="Icp/PMMatcherKnn" type="string" value="3" />
+			<param name="RGBD/NeighborLinkRefining" type="string" value="true" />
+			<param name="RGBD/LocalBundleOnLoopClosure" type="string" value="true" />
+			<param name="Icp/Force4DoF" type="string" value="false" />
+			<param name="Icp/Iterations" type="string" value="15" />
+			<param name="RGBD/ProximityAngle" type="string" value="360" />
+			<param name="RGBD/ProximityPathFilteringRadius" type="string" value="2.00" />
+			?>
+
+			<!--topics to subcribe for rtabmap-->
+			<remap from="odom" to="/zed2/zed2_node/odom" />
+			<!--remap from="/rtabmap/scan_cloud" to="/zed2/zed2_node/point_cloud/cloud_merged" /-->
+    		</node>
+			
+    		<node pkg="rtabmap_ros" type="rtabmapviz" name="rtabmapviz" args="-d $(find rtabmap_ros)/launch/config/rgbd_gui.ini" output="screen">
+			  <param name="subscribe_depth"  type="bool"   value="false"/>
+		      <param name="subscribe_rgbd"   type="bool"   value="true"/>
+			  <param name="subscribe_rgb"   type="bool"   value="false"/>
+		      <param name="subscribe_odom_info" type="bool"   value="false"/>
+			  <param name="subscribe_scan" type="bool" value="false" />
+			  <param name="subscribe_scan_cloud" type="bool" value="false" />
+		      <param name="frame_id"            type="string" value="base_link"/>
+		      <param name="rgbd_cameras"       type="int"    value="2"/>
+		      <param name="wait_for_transform"  type="bool"   value="false"/>
+		      <remap from="rgbd_image0"       to="/camera1/rgbd_image"/>
+		      <remap from="rgbd_image1"       to="/camera2/rgbd_image"/>
+			  <remap from="odom" to="/zed2/zed2_node/odom" />
+			  <!--remap from="scan_cloud" to="/zed2/zed2_node/point_cloud/cloud_merged" /-->
+    		</node>
+			
+  	</group> 	
+   	
+</launch>
