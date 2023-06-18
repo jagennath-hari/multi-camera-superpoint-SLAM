@@ -33,6 +33,6 @@ View all topics on RVIZ under `rtabmap` namespace.
 ## Future Update
 1) Integrate SuperGlue Feature Matching.
 2) Integrate Semantic Segmentation for Multi-Camera SLAM System.
-3) Integrate Bi-Directional loop closures and develop more roboust pose-graph optimizations.
+3) Integrate Bi-Directional loop closures and develop more roboust pose-graph optimizations. (Intial files in 'mergeScans.h')
 
 
